@@ -11,4 +11,16 @@ public class UserManagementServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UserManagementServiceApplication.class, args);
 	}
+	
+	/*@Bean
+	public CommandLineRunner loadData(@Autowired UserRepository repository) {
+		return (args) -> {
+			User user1 = User.builder()
+					.firstName("Robert0")
+					.lastName("Foobar")
+					.build();
+			repository.save(user1);
+		};
+	}*/
+	
 }

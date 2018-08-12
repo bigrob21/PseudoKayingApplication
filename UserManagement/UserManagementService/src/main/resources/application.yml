@@ -15,4 +15,3 @@ server:
   servlet:
     context-path: /v1
     
-    

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Document
+@Builder
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 5574475787502229452L;
@@ -21,4 +23,5 @@ public class User implements Serializable {
 	private String lastName;
 	private String userId;
 	
+	private List<String> roles = new ArrayList<>();
 }
