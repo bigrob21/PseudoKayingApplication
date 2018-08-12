@@ -1,8 +1,8 @@
 package com.pseudokayak.user.configs;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@Configuration
+@EnableMongoRepositories(basePackages= {"com.pseudokayak.user.repository"})
 public class DataConfig {
 
 }
