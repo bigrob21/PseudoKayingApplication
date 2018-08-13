@@ -8,22 +8,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ComponentScan("com.pseudokayak.user.controller")
-public class WebConfig implements WebMvcConfigurer  {
+public class WebConfig implements WebMvcConfigurer {
 
-	 @Override
-	    public void addCorsMappings(CorsRegistry registry) {
-	        registry.addMapping("/**")
-	        .allowCredentials(true)
-	        .allowedOrigins("*")
-	        .allowedHeaders("*")
-	        .allowedMethods(RequestMethod.GET.name(),
-	        				RequestMethod.POST.name(),
-	        				RequestMethod.PATCH.name(),
-	        				RequestMethod.PUT.name(),	
-	        				RequestMethod.DELETE.name(),
-	        				RequestMethod.OPTIONS.name(),
-	        				RequestMethod.HEAD.name()
-	        				);
-	    }
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**")
+				.allowCredentials(true)
+				.allowedOrigins("*")
+				.allowedHeaders("*")
+				.allowedMethods(RequestMethod.GET.name(), 
+								RequestMethod.POST.name(), 
+								RequestMethod.PATCH.name(),
+								RequestMethod.PUT.name(), 
+								RequestMethod.DELETE.name(), 
+								RequestMethod.OPTIONS.name(),
+								RequestMethod.HEAD.name());
+	}
 
 }
