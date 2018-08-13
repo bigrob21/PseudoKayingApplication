@@ -1,6 +1,8 @@
 package com.pseudokayak.user.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,5 +25,7 @@ public class User implements Serializable {
 	private String lastName;
 	private String userId;
 	
+	@Builder.Default 
 	private List<String> roles = new ArrayList<>();
+	
 }
