@@ -3,7 +3,7 @@ spring:
     name: UserManagementService
   data:
     mongodb:
-      host: ${MONGOHOST:192.168.99.100}
+      host: ${MONGOHOST:localhost}
       port: ${MONGOPORT:27017}
       database: user
   devtools:
