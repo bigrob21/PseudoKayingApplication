@@ -1,0 +1,27 @@
+version: '3.6'
+services:
+  userservice:
+    image: ps-userservice:01
+    container_name: userservice
+    ports:
+      - "2000:2000"
+    restart: always
+    environment:
+      - "MONGOHOST:192.168.99.100"
+      - "MONGOPORT:27017"
+    build:
+        context: ./UserManagementService
+        dockerfile: Dockerfile
+  mongo:
+    image: mongo:4.1
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME:admin"
+      - "MONGO_INITDB_ROOT_PASSWORD:admin"
+      - "MONGO_INITDB_DATABASE:users"
+    volumes:
+      - "./mongodata:/data/db"
+      - "./mongoconfig:/data/configdb"
