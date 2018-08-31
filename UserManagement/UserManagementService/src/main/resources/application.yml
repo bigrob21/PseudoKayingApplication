@@ -11,7 +11,16 @@ spring:
       enabled: true
       
 server:
-  port: ${SERVER_PORT:1000}
+  port: ${SERVER_PORT:2000}
   servlet:
     context-path: /v1
-    
+  ssl:
+    enabled: true
+    client-auth: want
+    key-store-password: ${KEYPASS:NOPASS}
+    key-store-type: PKCS12
+    key-store: classpath:localhost.p12
+#    trust-store: classpath:trust.p12
+#    trust-store-password: ${TRUSTPASS:NOPASS}
+#    trust-store-type: PKCS12
+
