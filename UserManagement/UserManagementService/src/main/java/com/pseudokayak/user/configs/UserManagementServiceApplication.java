@@ -29,7 +29,7 @@ public class UserManagementServiceApplication {
 			return (args) -> {
 				if(repository.findAll().isEmpty()) {
 					List<String> roleList1 = Stream.of("ADMIN", "USER")
-						.map(Object::toString).collect(Collectors.toList());
+						.collect(Collectors.toList());
 					User user1 = User.builder()
 						.userId("robert-0")
 						.firstName("Robert0")
