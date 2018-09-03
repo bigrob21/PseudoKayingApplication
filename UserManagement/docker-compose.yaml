@@ -22,6 +22,13 @@ services:
       - "MONGO_INITDB_ROOT_USERNAME:admin"
       - "MONGO_INITDB_ROOT_PASSWORD:admin"
       - "MONGO_INITDB_DATABASE:users"
-    volumes:
-      - "./mongodata:/data/db"
-      - "./mongoconfig:/data/configdb"
+## There is a problem with running docker on Windows, particular using something like VirtualBox.
+## Need to explicitly define the volume mount in this file, outside of service definitions, then reference
+## the docker volume 'mongodata' by name in the mongo service definition volume specs.       
+## See - https://github.com/docker-library/mongo/issues/74
+##       https://docs.mongodb.com/manual/administration/production-notes/#fsync-on-directories
+  volumes:
+      - "mongodata:/data/db"
+      - "${PWD}/mongoconfig:/data/configdb"
+volumes:
+  mongodata:
