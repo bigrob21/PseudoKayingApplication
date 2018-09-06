@@ -27,7 +27,7 @@ services:
 ## the docker volume 'mongodata' by name in the mongo service definition volume specs.       
 ## See - https://github.com/docker-library/mongo/issues/74
 ##       https://docs.mongodb.com/manual/administration/production-notes/#fsync-on-directories
-  volumes:
+    volumes:
       - "mongodata:/data/db"
       - "${PWD}/mongoconfig:/data/configdb"
 volumes:
