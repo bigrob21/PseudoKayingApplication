@@ -9,6 +9,10 @@ services:
     environment:
       - "MONGOHOST:192.168.99.100"
       - "MONGOPORT:27017"
+    volumes:
+#      - "../../.m2:/root/.m2"
+#      - "/c/Users/Rob Paul Jr/.m2:/root/.m2"
+      - "maven-repo:/root/.m2"
     build:
         context: ./UserManagementService
         dockerfile: Dockerfile
@@ -32,3 +36,5 @@ services:
       - "${PWD}/mongoconfig:/data/configdb"
 volumes:
   mongodata:
+  maven-repo:
+#    external: true
