@@ -29,6 +29,11 @@ public class InternalUser implements UserDetails {
 	
 	@Field("_id")
 	private String id;
+	//TODO: May want to separate these attributes out later.
+	private String firstName;
+	private String lastName;
+	
+	
 	@Builder.Default List<? extends GrantedAuthority> authorities = new ArrayList<>();
 	private String password;
 	private String username;
