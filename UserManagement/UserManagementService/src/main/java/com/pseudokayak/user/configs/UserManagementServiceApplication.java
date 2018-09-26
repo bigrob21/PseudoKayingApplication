@@ -12,8 +12,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.pseudokayak.user.model.User;
+import com.pseudokayak.internal.user.InternalUser;
 import com.pseudokayak.user.repository.UserRepository;
 
 @SpringBootApplication
@@ -30,13 +32,15 @@ public class UserManagementServiceApplication {
 			//Only populate or seed if no users are present!
 			return (args) -> {
 				if(repository.findAll().isEmpty()) {
-					List<String> roleList1 = Stream.of("ADMIN", "USER")
+					List<? extends GrantedAuthority> roleList1 = Stream.of("ADMIN", "USER")
+						.map(SimpleGrantedAuthority::new)
 						.collect(Collectors.toList());
-					User user1 = User.builder()
-						.userId("robert-0")
-						.firstName("Robert0")
-						.lastName("Foobar")
-						.roles(roleList1)
+					InternalUser user1 = InternalUser.builder()
+						.username("Luke Skywalker")
+						.firstName("Luke")
+						.lastName("Skywalker")
+						.username("lskywalker")
+						.authorities(roleList1)
 						.build();
 					repository.save(user1);
 				}

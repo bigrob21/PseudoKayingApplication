@@ -1,12 +1,15 @@
 package com.pseudokayak.user.management.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import com.pseudokayak.internal.user.InternalUser;
 import com.pseudokayak.user.management.service.api.UserService;
 import com.pseudokayak.user.model.User;
 import com.pseudokayak.user.repository.UserRepository;
+import com.psuedokayak.user.dtos.UserConverterUtils;
 
 public class UserServiceImpl implements UserService {
 
@@ -19,7 +22,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public List<User> loadAllUsers() {
-		return repo.findAll();
+		List<InternalUser> uzers = repo.findAll();
+		return uzers.stream()
+				.map(UserConverterUtils::convertInternalUserToUser)
+				.collect(Collectors.toList());
 	}
 
 	@Override

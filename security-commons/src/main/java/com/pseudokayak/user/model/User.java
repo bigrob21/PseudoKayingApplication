@@ -22,6 +22,8 @@ public class User implements Serializable {
 	private String lastName;
 	private String userId;
 	
+	private String userName;
+	
 	@Builder.Default 
 	private List<String> roles = new ArrayList<>();
 	

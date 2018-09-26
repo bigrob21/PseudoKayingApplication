@@ -15,12 +15,10 @@ public class UserConverterUtils {
 		Optional.ofNullable(user.getFirstName()).ifPresent(name -> builder.firstName(name));
 		Optional.ofNullable(user.getLastName()).ifPresent(name -> builder.lastName(name));
 		builder.roles(user.getAuthorities().stream().map(role -> role.getAuthority()).collect(toList()));
+		builder.userName(user.getUsername());
 		return builder.build();
 	}
 	
-	public static InternalUser convertUserToInternalUser(@NotNull User user) {
-		InternalUser.InternalUserBuilder iUserBuilder = InternalUser.builder();
-		return null;
-	}
+	//Omitting conversion from Input User to Internal User. 
 	
 }
