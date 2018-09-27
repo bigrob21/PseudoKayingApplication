@@ -9,5 +9,5 @@ RemoteSystemsTempFiles/
 **/.classpath
 **/.project
 .recommenders
-security-commons/.settings/
-security-commons/target/
+**/target/**/*
+**/.settings/
