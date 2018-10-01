@@ -1,21 +1,26 @@
 package com.pseudokayaking.app.jwt;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.pseudokayak.user.model.User;
 
 import io.jsonwebtoken.SignatureAlgorithm;
+import junit.framework.Assert;
 
 public class UserJWTTokenFactoryTest {
 
@@ -46,7 +51,23 @@ public class UserJWTTokenFactoryTest {
 	}
 
 	@Test
-	public void test1() {
-		System.out.println(OUTDATED_JWT_STRING);
+	public void testNormalTokenCreation() {
+		LocalDateTime ldt = LocalDateTime.now();
+		//TODO: Need to validate the timeout of this token, TBD.
+		LocalDateTime nowPlus5Mins = ldt.plusMinutes(5);
+		User testUser = generateTestUser();
+		final String jwtString = TestUnit.generateJwt(testUser, 40000L);
+		Assertions.assertNotNull(jwtString);
+		Assertions.assertTrue(jwtString.trim().length() > 100);
 	}
+	
+	private User generateTestUser() {
+		return User.builder().firstName("Donald")
+			.lastName("Duck")
+			.userId(UUID.randomUUID().toString())
+			.userName("DDUCK")
+			.roles(Arrays.asList("Role-1", "Role-2"))
+			.build();
+	}
+	
 }
