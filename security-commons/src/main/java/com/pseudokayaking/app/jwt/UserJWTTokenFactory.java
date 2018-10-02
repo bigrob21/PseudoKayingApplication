@@ -2,20 +2,22 @@ package com.pseudokayaking.app.jwt;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pseudokayak.user.model.User;
 import com.pseudokayaking.jwt.factory.JWTFactory;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class UserJWTTokenFactory extends JWTFactory<User> {
 
-	static final String APPLICATION_NAME="PSEUDO-KAYAKING";
+	public static final String APPLICATION_NAME="PSEUDO-KAYAKING";
+	public static final String USER_CLAIMS_KEY = "user";
+	static final ObjectMapper MAPPER = new ObjectMapper();
 	
 	private String secretKey;
 	private SignatureAlgorithm sigAlgorithm;
@@ -34,15 +36,13 @@ public class UserJWTTokenFactory extends JWTFactory<User> {
 	
 	@Override
 	public String generateJwt(User primarySubject, long expirationTime) {
-		Map<String, Object> claims = new HashMap<>();
-		claims.putIfAbsent("sub", primarySubject);
 		LocalDateTime now = getCurrentDateTime();
 		return Jwts.builder()
 			.setId(UUID.randomUUID().toString())
 			.setNotBefore(Timestamp.valueOf(now))
 			.setIssuedAt(Timestamp.valueOf(now))
 			.setExpiration(Timestamp.valueOf(now.plusSeconds(expirationTime)))
-			.claim("user", primarySubject)
+			.claim(USER_CLAIMS_KEY, primarySubject)
 			.setIssuer(APPLICATION_NAME)
 			.signWith(this.sigAlgorithm, this.secretKey)
 			.setSubject(primarySubject.getUserId())
@@ -51,20 +51,14 @@ public class UserJWTTokenFactory extends JWTFactory<User> {
 
 	@Override
 	public User parseJwt(String jwt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	//TODO: Delete this as this is a simple harness to test usage!!
-	public static void main(String[] args) {
-		UserJWTTokenFactory factory = new UserJWTTokenFactory("ABbrACADABR@", SignatureAlgorithm.HS384);
-		User uzer = User.builder().firstName("Donald")
-			.lastName("Duck")
-			.userId(UUID.randomUUID().toString())
-			.userName("DDUCK")
-			.roles(Arrays.asList("Role-1", "Role-2"))
-			.build();
-		System.out.println(factory.generateJwt(uzer , 300000L));
+		Claims claims = Jwts
+				.parser()
+				.setSigningKey(this.secretKey)
+				.parseClaimsJws(jwt)
+				.getBody();
+		return Optional.ofNullable(claims.get(USER_CLAIMS_KEY))
+					.map(o -> MAPPER.convertValue(o, User.class))
+					.orElseThrow(() -> new IllegalArgumentException("Unable to located user attribute from JWT, token is invalid"));		
 	}
 
 }
