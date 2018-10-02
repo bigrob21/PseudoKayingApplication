@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -55,15 +55,15 @@ public class UserJWTTokenFactoryTest {
 		LocalDateTime nowPlus5Mins = ldt.plusMinutes(5);
 		User testUser = generateTestUser();
 		final String jwtString = TestUnit.generateJwt(testUser, 40000L);
-		Assertions.assertNotNull(jwtString);
-		Assertions.assertTrue(jwtString.trim().length() > 100);
+		assertNotNull(jwtString);
+		assertTrue(jwtString.trim().length() > 100);
 		System.out.println(String.format("Generated JWT:  %s" ,new Object[] {jwtString}) );
 	}
 	
 	@Test
 	public void testJwtParseExpiredJwt() {
 		AtomicReference<User> uzerClaim = new AtomicReference<>();
-		Assertions.assertThrows(io.jsonwebtoken.ExpiredJwtException.class, () -> {
+		assertThrows(io.jsonwebtoken.ExpiredJwtException.class, () -> {
 			uzerClaim.set(TestUnit.parseJwt(OUTDATED_JWT_STRING));
 		});
 	}
